@@ -48,7 +48,7 @@ dependencies {
 
 #### 3.1.1、事件注册订阅
 
-1.使用RxBusUtils.get().onMainThread方法注册事件，并指定订阅发生在主线程。
+1.使用`RxBusUtils.get().onMainThread`方法注册事件，并指定订阅发生在主线程。
 
 ```
 RxBusUtils.get().onMainThread(EventKey.EVENT_HAVE_DATA, Event.class, new Consumer<Event>() {
@@ -58,7 +58,7 @@ RxBusUtils.get().onMainThread(EventKey.EVENT_HAVE_DATA, Event.class, new Consume
     }
 });
 ```
-2.使用RxBusUtils.get().on方法注册事件，订阅所在线程为事件发生线程，也可指定订阅发生的线程。
+2.使用`RxBusUtils.get().on`方法注册事件，订阅所在线程为事件发生线程，也可指定订阅发生的线程。
 
 ```
 RxBusUtils.get().on(EventKey.EVENT_BACK_NORMAL, String.class, new Consumer<String>() {
@@ -70,7 +70,7 @@ RxBusUtils.get().on(EventKey.EVENT_BACK_NORMAL, String.class, new Consumer<Strin
 });
 ```
 
-3.与RxBus1相比，使用RxJava2的RxBus2需要指定接收数据的类型，但如果使用默认的RxEvent进行事件注册, 就不需要指定类型了。
+3.与RxBus1相比，使用RxJava2的RxBus2需要指定接收数据的类型，但如果使用默认的`RxEvent`进行事件注册, 就不需要指定类型了。
 
 ```
 RxBusUtils.get().onMainThread(EventKey.EVENT_NO_DATA, new Consumer<RxEvent>() {
@@ -84,14 +84,14 @@ RxBusUtils.get().onMainThread(EventKey.EVENT_NO_DATA, new Consumer<RxEvent>() {
 
 #### 3.1.2、事件发送
 
-1.使用RxBusUtils.get().post(Object eventName)发送不带数据的事件。
+1.使用`RxBusUtils.get().post(Object eventName)`发送不带数据的事件。
 ```
 RxBusUtils.get().post(EventKey.EVENT_NO_DATA);
 
 RxBusUtils.get().postRxEvent(EventKey.EVENT_NO_DATA); //发送使用RxEvent注册的事件
 ```
 
-2.使用RxBusUtils.get().post(Object eventName, Object content)发送携带数据的事件。
+2.使用`RxBusUtils.get().post(Object eventName, Object content)`发送携带数据的事件。
 ```
 RxBusUtils.get().post(EventKey.EVENT_HAVE_DATA, new Event(EventKey.EVENT_HAVE_DATA, "这里携带的是数据"));
 RxBusUtils.get().post(EventKey.EVENT_HAVE_DATA, true);
@@ -99,12 +99,12 @@ RxBusUtils.get().post(EventKey.EVENT_HAVE_DATA, true);
 
 #### 3.1.3、事件注销
 
-1.使用RxBusUtils.get().unregisterAll(Object eventName)取消事件的所有订阅并注销事件。
+1.使用`RxBusUtils.get().unregisterAll(Object eventName)`取消事件的所有订阅并注销事件。
 ```
 RxBusUtils.get().unregisterAll(EventKey.EVENT_HAVE_DATA);
 ```
 
-2.使用RxBusUtils.get().unregister(Object eventName, SubscribeInfo subscribeInfo)取消事件的某个指定订阅。
+2.使用`RxBusUtils.get().unregister(Object eventName, SubscribeInfo subscribeInfo)`取消事件的某个指定订阅。
 SubscribeInfo是事件注册订阅后返回的订阅信息。如果在取消该订阅后，该事件如无其他订阅，便自动注销该事件。
 ```
 RxBusUtils.get().unregister(EventKey.EVENT_CLEAR, mSubscribeInfo);
@@ -172,7 +172,7 @@ RxJavaUtils.executeRxIteratorTask(new RxIteratorTask<String, Integer>(new String
 
 1.SimpleSubscriber：简单的订阅者，已对错误进行捕获处理，并对生命周期进行日志记录。可设置IExceptionHandler接口自定义错误处理，设置ILogger接口自定义日志记录。
 
-2.ProgressLoadingSubscriber：带进度条加载的订阅者，实现IProgressLoader接口可自定义加载方式。
+2.ProgressLoadingSubscriber：带进度条加载的订阅者，实现`IProgressLoader`接口可自定义加载方式。
 ```
 Observable.just("加载完毕！")
         .delay(3, TimeUnit.SECONDS)
@@ -189,7 +189,7 @@ Observable.just("加载完毕！")
 
 DisposablePool：RxJava的订阅池
 
-1.增加订阅：add(@NonNull Object tagName, Subscription m) 或者 add(Subscription m, @NonNull Object tagName)
+1.增加订阅：`add(@NonNull Object tagName, Disposable disposable)` 或者 `add(Disposable disposable, @NonNull Object tagName)`
 ```
 DisposablePool.get().add(RxJavaUtils.polling(5, new Consumer<Long>() {
     @Override
@@ -199,7 +199,7 @@ DisposablePool.get().add(RxJavaUtils.polling(5, new Consumer<Long>() {
 }), "polling");
 ```
 
-2.取消订阅：remove(@NonNull Object tagName)、remove(@NonNull Object tagName, Subscription m)、removeAll()
+2.取消订阅：`remove(@NonNull Object tagName)`、`remove(@NonNull Object tagName, Disposable disposable)`、`removeAll()`
 ```
 DisposablePool.get().remove("polling");
 ```
