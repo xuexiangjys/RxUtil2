@@ -14,10 +14,7 @@ buildscript {
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
+    addRepos(repositories) //增加代码仓库
 }
 
 task clean(type: Delete) {
