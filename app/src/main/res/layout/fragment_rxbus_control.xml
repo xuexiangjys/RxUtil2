@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 xuexiangjys(xuexiangjys@163.com)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/btn_send_data"
+            style="@style/ButtonStyle"
+            android:layout_weight="1"
+            android:text="发送带数据的事件" />
+
+        <Button
+            android:id="@+id/btn_send_nodata"
+            style="@style/ButtonStyle"
+            android:layout_weight="1"
+            android:text="发送不带数据的事件" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/btn_back_mainthread"
+            style="@style/ButtonStyle"
+            android:layout_weight="1"
+            android:text="回到主线程" />
+
+        <Button
+            android:id="@+id/btn_back_normal"
+            style="@style/ButtonStyle"
+            android:layout_weight="1"
+            android:text="线程不切换" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/btn_one_by_one"
+            style="@style/ButtonStyle"
+            android:layout_weight="1"
+            android:text="一对一发送" />
+
+        <Button
+            android:id="@+id/btn_one_by_more"
+            style="@style/ButtonStyle"
+            android:layout_weight="1"
+            android:text="一对多发送" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/btn_clear_all"
+            style="@style/ButtonStyle"
+            android:layout_weight="1"
+            android:text="清空所有内容" />
+
+    </LinearLayout>
+
+</LinearLayout>
