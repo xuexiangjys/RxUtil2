@@ -36,9 +36,9 @@ public class DisposablePool {
 
     private static DisposablePool sInstance;
 
-    //===================================网络请求订阅管理=======================================//
+    //===================================订阅管理=======================================//
     /**
-     * 网络请求订阅池，管理Subscribers订阅，防止内存泄漏
+     * RxJava订阅池，管理Subscribers订阅，防止内存泄漏
      */
     private ConcurrentHashMap<Object, CompositeDisposable> maps = new ConcurrentHashMap<>();
 
@@ -143,7 +143,7 @@ public class DisposablePool {
      * 取消订阅
      * @param disposable 订阅信息
      */
-    public static void unsubscribe(Disposable disposable) {
+    public static void dispose(Disposable disposable) {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
