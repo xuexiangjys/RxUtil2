@@ -16,17 +16,23 @@
 
 package com.xuexiang.rxutil2demo.activity;
 
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.xuexiang.rxutil2.RxBindingUtils;
 import com.xuexiang.rxutil2.rxjava.DisposablePool;
+import com.xuexiang.rxutil2.subsciber.SimpleThrowableAction;
 import com.xuexiang.rxutil2demo.R;
 import com.xuexiang.rxutil2demo.base.BaseActivity;
 
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -40,6 +46,13 @@ public class RxBindingActivity extends BaseActivity {
 
     @BindView(R.id.et_input)
     EditText mEtInput;
+
+    @BindView(R.id.et_username)
+    EditText mEtUsername;
+    @BindView(R.id.et_password)
+    EditText mEtPassword;
+    @BindView(R.id.btn_login)
+    Button mBtnLogin;
 
     /**
      * 布局的资源id
@@ -71,18 +84,37 @@ public class RxBindingActivity extends BaseActivity {
             }
         });
 
-
         DisposablePool.get().add(RxBindingUtils.textChanges(mEtInput, 1, TimeUnit.SECONDS, new Consumer<CharSequence>() {
             @Override
             public void accept(CharSequence charSequence) throws Exception {
                 toast("输入内容:" + charSequence);
             }
         }), "textChanges");
+
+        DisposablePool.get().add(Observable.combineLatest(RxBindingUtils.textChanges(mEtUsername), RxBindingUtils.textChanges(mEtPassword), new BiFunction<CharSequence, CharSequence, Boolean>() {
+            @Override
+            public Boolean apply(CharSequence charSequence, CharSequence charSequence2) {
+                return !TextUtils.isEmpty(mEtUsername.getText()) && !TextUtils.isEmpty(mEtPassword.getText());
+            }
+        }).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception{
+                mBtnLogin.setEnabled(aBoolean);
+            }
+        }, new SimpleThrowableAction("RxBindingActivity")), "combineLatest");
+
+
     }
 
     @Override
     protected void onDestroy() {
         DisposablePool.get().remove("textChanges");
+        DisposablePool.get().remove("combineLatest");
         super.onDestroy();
+    }
+
+    @OnClick(R.id.btn_login)
+    public void onViewClicked() {
+        toast("登录");
     }
 }

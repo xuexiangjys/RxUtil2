@@ -141,6 +141,15 @@ public final class RxBindingUtils {
     }
 
     //========================变化事件=============================//
+    /**
+     * 简单的文字变化监听
+     *
+     * @param textView 监听控件
+     * @return
+     */
+    public static Observable<CharSequence> textChanges(TextView textView) {
+        return RxTextView.textChanges(textView);
+    }
 
     /**
      * 简单的文字变化监听
