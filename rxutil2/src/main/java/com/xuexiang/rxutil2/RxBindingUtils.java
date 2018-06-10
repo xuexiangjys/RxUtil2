@@ -153,6 +153,7 @@ public final class RxBindingUtils {
     public static Observable<CharSequence> textChanges(TextView textView, long timeout, TimeUnit unit) {
         return RxTextView.textChanges(textView)
                 .compose(RxOperationUtils.<CharSequence>_debounce(timeout, unit))
+                .skip(1) //跳过第1次数据发射 = 初始输入框的空字符状态
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

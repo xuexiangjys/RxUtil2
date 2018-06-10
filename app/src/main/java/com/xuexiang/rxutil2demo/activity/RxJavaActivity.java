@@ -19,11 +19,12 @@ package com.xuexiang.rxutil2demo.activity;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.xuexiang.rxutil2.logs.RxLog;
-import com.xuexiang.rxutil2.rxjava.RxJavaUtils;
 import com.xuexiang.rxutil2.rxjava.DisposablePool;
+import com.xuexiang.rxutil2.rxjava.RxJavaUtils;
 import com.xuexiang.rxutil2.rxjava.task.RxAsyncTask;
 import com.xuexiang.rxutil2.rxjava.task.RxIOTask;
 import com.xuexiang.rxutil2.rxjava.task.RxIteratorTask;
@@ -37,12 +38,9 @@ import com.xuexiang.rxutil2demo.base.BaseActivity;
 
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 /**
  * RxJavaUtils演示示例
@@ -53,6 +51,9 @@ public class RxJavaActivity extends BaseActivity {
     private final static String TAG = "RxJavaActivity";
 
     private IProgressLoader mProgressLoader;
+
+    @BindView(R.id.btn_count_down)
+    Button mBtnCountDown;
 
     @Override
     protected int getLayoutId() {
@@ -69,7 +70,7 @@ public class RxJavaActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.btn_do_in_io, R.id.btn_do_in_ui, R.id.btn_do_in_io_ui, R.id.btn_loading, R.id.btn_polling, R.id.btn_foreach})
+    @OnClick({R.id.btn_do_in_io, R.id.btn_do_in_ui, R.id.btn_do_in_io_ui, R.id.btn_loading, R.id.btn_polling, R.id.btn_count_down, R.id.btn_foreach})
     void OnClick(View v) {
         switch(v.getId()) {
             case R.id.btn_do_in_io:
@@ -131,6 +132,26 @@ public class RxJavaActivity extends BaseActivity {
                     }
                 }), "polling");
                 break;
+            case R.id.btn_count_down:
+                DisposablePool.get().add(RxJavaUtils.countDown(30, new SimpleSubscriber<Long>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        mBtnCountDown.setEnabled(false);
+                    }
+                    @Override
+                    public void onNext(Long aLong) {
+                        mBtnCountDown.setText(String.format("%s s后重新获取", aLong));
+                    }
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        mBtnCountDown.setText("重新获取");
+                        mBtnCountDown.setEnabled(true);
+                    }
+                }),"countDown");
+
+                break;
             case R.id.btn_foreach:
 //                RxJavaUtils.foreach(new String[]{"123", "456", "789"}, new Function<String, Integer>() {
 //                    @Override
@@ -175,6 +196,7 @@ public class RxJavaActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         DisposablePool.get().remove("polling");
+        DisposablePool.get().remove("countDown");
         super.onDestroy();
     }
 }

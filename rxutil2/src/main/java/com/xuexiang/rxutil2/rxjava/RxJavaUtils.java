@@ -122,7 +122,7 @@ public final class RxJavaUtils {
      * @param interval 轮询间期
      * @param consumer 监听事件
      */
-    public static Disposable polling(@NonNull long interval, @NonNull Consumer<Long> consumer) {
+    public static Disposable polling(long interval, @NonNull Consumer<Long> consumer) {
         return polling(0, interval, consumer);
     }
 
@@ -133,7 +133,7 @@ public final class RxJavaUtils {
      * @param interval     轮询间期
      * @param consumer     监听事件
      */
-    public static Disposable polling(@NonNull long initialDelay, @NonNull long interval, @NonNull Consumer<Long> consumer) {
+    public static Disposable polling(long initialDelay, long interval, @NonNull Consumer<Long> consumer) {
         return polling(initialDelay, interval, TimeUnit.SECONDS, consumer, new SimpleThrowableAction(TAG));
     }
 
@@ -146,10 +146,53 @@ public final class RxJavaUtils {
      * @param consumer      监听事件
      * @param errorConsumer 出错的事件
      */
-    public static Disposable polling(@NonNull long initialDelay, @NonNull long interval, @NonNull TimeUnit unit, @NonNull Consumer<Long> consumer, @NonNull Consumer<Throwable> errorConsumer) {
+    public static Disposable polling(long initialDelay, long interval, @NonNull TimeUnit unit, @NonNull Consumer<Long> consumer, @NonNull Consumer<Throwable> errorConsumer) {
         return Flowable.interval(initialDelay, interval, unit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(consumer, errorConsumer);
+    }
+
+    //=================倒计时=================//
+    /**
+     * 倒计时操作【间隔1秒】
+     *
+     * @param totalTime  倒计时总时长
+     * @param subscriber 事件订阅
+     * @return
+     */
+    public static Disposable countDown(final long totalTime, @NonNull BaseSubscriber<Long> subscriber) {
+        return countDown(totalTime, 1, TimeUnit.SECONDS)
+                .subscribeWith(subscriber);
+    }
+
+    /**
+     * 倒计时操作【间隔1秒】
+     *
+     * @param totalTime 倒计时总时长
+     * @return
+     */
+    public static Observable<Long> countDown(final long totalTime) {
+        return countDown(totalTime, 1, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 倒计时操作
+     *
+     * @param totalTime 倒计时总时长
+     * @param interval  倒计时间隔
+     * @param unit      时间间隔单位
+     * @return
+     */
+    public static Observable<Long> countDown(final long totalTime, long interval, @NonNull TimeUnit unit) {
+        return Observable.interval(0, interval, unit)
+                .take((int) Math.floor(totalTime / (double) interval) + 1)
+                .map(new Function<Long, Long>() {
+                    @Override
+                    public Long apply(Long time) throws Exception {
+                        return totalTime - time;
+                    }
+                })
+                .compose(RxSchedulerUtils.<Long>_io_main_o());
     }
 
     //========================延迟操作==========================//
@@ -160,7 +203,7 @@ public final class RxJavaUtils {
      * @param delayTime 延迟时间
      * @param consumer  监听事件
      */
-    public static Disposable delay(@NonNull long delayTime, @NonNull Consumer<Long> consumer) {
+    public static Disposable delay(long delayTime, @NonNull Consumer<Long> consumer) {
         return delay(delayTime, TimeUnit.SECONDS, consumer, new SimpleThrowableAction(TAG));
     }
 
@@ -185,7 +228,7 @@ public final class RxJavaUtils {
      * @param unit       延迟时间单位
      * @param subscriber 订阅的事件
      */
-    public static Disposable delay(@NonNull long delayTime, @NonNull TimeUnit unit, @NonNull BaseSubscriber<Long> subscriber) {
+    public static Disposable delay(long delayTime, @NonNull TimeUnit unit, @NonNull BaseSubscriber<Long> subscriber) {
         return Observable.timer(delayTime, unit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(subscriber);
@@ -199,7 +242,7 @@ public final class RxJavaUtils {
      * @param unit       延迟时间单位
      * @param subscriber 订阅的事件
      */
-    public static <T> Disposable delay(@NonNull T t, @NonNull long delayTime, @NonNull TimeUnit unit, @NonNull BaseSubscriber<T> subscriber) {
+    public static <T> Disposable delay(@NonNull T t, long delayTime, @NonNull TimeUnit unit, @NonNull BaseSubscriber<T> subscriber) {
         return Observable.just(t)
                 .delay(delayTime, unit)
                 .observeOn(AndroidSchedulers.mainThread())

@@ -50,6 +50,12 @@
         android:text="轮询" />
 
     <Button
+        android:id="@+id/btn_count_down"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取验证码" />
+
+    <Button
         android:id="@+id/btn_foreach"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

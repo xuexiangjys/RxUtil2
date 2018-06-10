@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.xuexiang.rxutil2.RxBindingUtils;
+import com.xuexiang.rxutil2.rxjava.DisposablePool;
 import com.xuexiang.rxutil2demo.R;
 import com.xuexiang.rxutil2demo.base.BaseActivity;
 
@@ -71,11 +72,17 @@ public class RxBindingActivity extends BaseActivity {
         });
 
 
-        RxBindingUtils.textChanges(mEtInput, 1, TimeUnit.SECONDS, new Consumer<CharSequence>() {
+        DisposablePool.get().add(RxBindingUtils.textChanges(mEtInput, 1, TimeUnit.SECONDS, new Consumer<CharSequence>() {
             @Override
             public void accept(CharSequence charSequence) throws Exception {
                 toast("输入内容:" + charSequence);
             }
-        });
+        }), "textChanges");
+    }
+
+    @Override
+    protected void onDestroy() {
+        DisposablePool.get().remove("textChanges");
+        super.onDestroy();
     }
 }
