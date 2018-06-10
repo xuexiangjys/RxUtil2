@@ -32,7 +32,7 @@ import io.reactivex.functions.Consumer;
  * RxBus辅助工具类
  *
  * @author xuexiang
- * @date 2018/3/1 上午10:41
+ * @since 2018/3/1 上午10:41
  */
 public class RxBusUtils {
     private final static String TAG = "RxBusUtils";

@@ -20,8 +20,9 @@ import android.support.annotation.NonNull;
 
 /**
  * 错误信息处理
+ *
  * @author xuexiang
- * @date 2018/3/9 上午9:33
+ * @since 2018/6/10 下午9:30
  */
 public final class RxExceptionHandler {
 

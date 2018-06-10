@@ -18,8 +18,9 @@ package com.xuexiang.rxutil2.subsciber.impl;
 
 /**
  * 进度框取消监听
+ *
  * @author xuexiang
- * @date 2018/3/10 上午12:43
+ * @since 2018/6/10 下午9:27
  */
 public interface OnProgressCancelListener {
 

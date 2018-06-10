@@ -17,6 +17,7 @@
 package com.xuexiang.rxutil2demo.activity;
 
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.xuexiang.rxutil2.RxBindingUtils;
 import com.xuexiang.rxutil2demo.R;
@@ -35,6 +36,9 @@ public class RxBindingActivity extends BaseActivity {
 
     @BindView(R.id.btn_click)
     Button mBtnClick;
+
+    @BindView(R.id.et_input)
+    EditText mEtInput;
 
     /**
      * 布局的资源id
@@ -63,6 +67,14 @@ public class RxBindingActivity extends BaseActivity {
             @Override
             public void accept(Object o) {
                 toast("触发点击");
+            }
+        });
+
+
+        RxBindingUtils.textChanges(mEtInput, 1, TimeUnit.SECONDS, new Consumer<CharSequence>() {
+            @Override
+            public void accept(CharSequence charSequence) throws Exception {
+                toast("输入内容:" + charSequence);
             }
         });
     }

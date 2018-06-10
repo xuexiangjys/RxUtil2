@@ -18,8 +18,9 @@ package com.xuexiang.rxutil2.exception;
 
 /**
  * 错误信息处理者
+ *
  * @author xuexiang
- * @date 2018/3/9 上午9:30
+ * @since 2018/6/10 下午9:30
  */
 public interface IExceptionHandler {
 

@@ -43,11 +43,15 @@ import io.reactivex.schedulers.Schedulers;
  * RxJava工具
  *
  * @author xuexiang
- * @date 2018/3/4 上午1:20
+ * @since 2018/6/10 下午9:28
  */
 public final class RxJavaUtils {
 
     private final static String TAG = "RxJavaUtils";
+
+    private RxJavaUtils() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
 
     //========================线程任务==========================//
 

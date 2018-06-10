@@ -23,8 +23,9 @@ import com.xuexiang.rxutil2.rxjava.impl.IRxUITask;
 
 /**
  * 通用的遍历数组或者集合的异步任务，在io线程中进行数据处理，在ui线程中刷新ui
+ *
  * @author xuexiang
- * @date 2018/3/17 下午7:39
+ * @since 2018/6/10 下午9:29
  */
 public abstract class RxIteratorTask<T, R> implements IRxIOTask<T, R>, IRxUITask<R> {
 

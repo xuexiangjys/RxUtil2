@@ -16,8 +16,6 @@
 
 package com.xuexiang.rxutil2.rxbus;
 
-import android.text.TextUtils;
-
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -25,7 +23,7 @@ import java.util.Objects;
  * 万能的事件对象
  *
  * @author xuexiang
- * @date 2018/3/26 下午11:01
+ * @since 2018/3/26 下午11:01
  */
 public class RxEvent {
 
