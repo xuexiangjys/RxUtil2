@@ -31,6 +31,8 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableTransformer;
+import io.reactivex.Observable;
+import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -116,7 +118,7 @@ public final class RxJavaUtils {
      * @param interval 轮询间期
      * @param consumer 监听事件
      */
-    public static Disposable polling(long interval, @NonNull Consumer<Long> consumer) {
+    public static Disposable polling(@NonNull long interval, @NonNull Consumer<Long> consumer) {
         return polling(0, interval, consumer);
     }
 
@@ -127,7 +129,7 @@ public final class RxJavaUtils {
      * @param interval     轮询间期
      * @param consumer     监听事件
      */
-    public static Disposable polling(long initialDelay, long interval, @NonNull Consumer<Long> consumer) {
+    public static Disposable polling(@NonNull long initialDelay, @NonNull long interval, @NonNull Consumer<Long> consumer) {
         return polling(initialDelay, interval, TimeUnit.SECONDS, consumer, new SimpleThrowableAction(TAG));
     }
 
@@ -140,7 +142,7 @@ public final class RxJavaUtils {
      * @param consumer      监听事件
      * @param errorConsumer 出错的事件
      */
-    public static Disposable polling(long initialDelay, long interval, TimeUnit unit, @NonNull Consumer<Long> consumer, @NonNull Consumer<Throwable> errorConsumer) {
+    public static Disposable polling(@NonNull long initialDelay, @NonNull long interval, @NonNull TimeUnit unit, @NonNull Consumer<Long> consumer, @NonNull Consumer<Throwable> errorConsumer) {
         return Flowable.interval(initialDelay, interval, unit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(consumer, errorConsumer);
@@ -154,7 +156,7 @@ public final class RxJavaUtils {
      * @param delayTime 延迟时间
      * @param consumer  监听事件
      */
-    public static Disposable delay(long delayTime, @NonNull Consumer<Long> consumer) {
+    public static Disposable delay(@NonNull long delayTime, @NonNull Consumer<Long> consumer) {
         return delay(delayTime, TimeUnit.SECONDS, consumer, new SimpleThrowableAction(TAG));
     }
 
@@ -166,10 +168,38 @@ public final class RxJavaUtils {
      * @param consumer      监听事件
      * @param errorConsumer 出错的事件
      */
-    public static Disposable delay(long delayTime, TimeUnit unit, @NonNull Consumer<Long> consumer, @NonNull Consumer<Throwable> errorConsumer) {
+    public static Disposable delay(@NonNull long delayTime, @NonNull TimeUnit unit, @NonNull Consumer<Long> consumer, @NonNull Consumer<Throwable> errorConsumer) {
         return Flowable.timer(delayTime, unit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(consumer, errorConsumer);
+    }
+
+    /**
+     * 延迟操作
+     *
+     * @param delayTime  延迟时间
+     * @param unit       延迟时间单位
+     * @param subscriber 订阅的事件
+     */
+    public static Disposable delay(@NonNull long delayTime, @NonNull TimeUnit unit, @NonNull BaseSubscriber<Long> subscriber) {
+        return Observable.timer(delayTime, unit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(subscriber);
+    }
+
+    /**
+     * 延迟操作
+     *
+     * @param t          发射源
+     * @param delayTime  延迟时间
+     * @param unit       延迟时间单位
+     * @param subscriber 订阅的事件
+     */
+    public static <T> Disposable delay(@NonNull T t, @NonNull long delayTime, @NonNull TimeUnit unit, @NonNull BaseSubscriber<T> subscriber) {
+        return Observable.just(t)
+                .delay(delayTime, unit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(subscriber);
     }
 
     //=====================AsyncTask=========================//
@@ -219,6 +249,8 @@ public final class RxJavaUtils {
         };
     }
 
+    //==================Function=====================//
+
     /**
      * 执行异步任务（IO线程处理，UI线程显示）
      *
@@ -232,13 +264,25 @@ public final class RxJavaUtils {
                 .compose(RxSchedulerUtils.<R>_io_main_f());
     }
 
+    /**
+     * 执行异步任务（IO线程处理，UI线程显示）
+     *
+     * @param t     处理入参
+     * @param func1 动作
+     * @return
+     */
+    public static <T, R> Observable<R> executeAsyncTask2(@NonNull T t, @NonNull Function<T, R> func1) {
+        return Observable.just(t)
+                .map(func1)
+                .compose(RxSchedulerUtils.<R>_io_main_o());
+    }
 
     /**
      * 执行异步任务（IO线程处理，UI线程显示）
      *
-     * @param t             处理入参
-     * @param func1         动作
-     * @param consumer      监听事件
+     * @param t        处理入参
+     * @param func1    动作
+     * @param consumer 监听事件
      * @return
      */
     public static <T, R> Disposable executeAsyncTask(@NonNull T t, @NonNull Function<T, R> func1, @NonNull Consumer<R> consumer) {
@@ -259,6 +303,19 @@ public final class RxJavaUtils {
         return executeAsyncTask(t, func1).subscribe(consumer, errorConsumer);
     }
 
+    /**
+     * 执行异步任务（IO线程处理，UI线程显示）
+     *
+     * @param t          处理入参
+     * @param func1      动作
+     * @param subscriber 订阅事件
+     * @return
+     */
+    public static <T, R> Disposable executeAsyncTask2(@NonNull T t, @NonNull Function<T, R> func1, @NonNull BaseSubscriber<R> subscriber) {
+        return executeAsyncTask2(t, func1).subscribeWith(subscriber);
+    }
+
+    //==================Transformer=====================//
 
     /**
      * 执行异步任务（IO线程处理，UI线程显示）
@@ -276,9 +333,22 @@ public final class RxJavaUtils {
     /**
      * 执行异步任务（IO线程处理，UI线程显示）
      *
-     * @param t             处理入参
-     * @param transformer   转化器
-     * @param consumer      监听事件
+     * @param t           处理入参
+     * @param transformer 转化器
+     * @return
+     */
+    public static <T, R> Observable<R> executeAsyncTask(@NonNull T t, @NonNull ObservableTransformer<T, R> transformer) {
+        return Observable.just(t)
+                .compose(transformer)
+                .compose(RxSchedulerUtils.<R>_io_main_o());
+    }
+
+    /**
+     * 执行异步任务（IO线程处理，UI线程显示）
+     *
+     * @param t           处理入参
+     * @param transformer 转化器
+     * @param consumer    监听事件
      * @return
      */
     public static <T, R> Disposable executeAsyncTask(@NonNull T t, @NonNull FlowableTransformer<T, R> transformer, @NonNull Consumer<R> consumer) {
@@ -298,6 +368,17 @@ public final class RxJavaUtils {
         return executeAsyncTask(t, transformer).subscribe(consumer, errorConsumer);
     }
 
+    /**
+     * 执行异步任务（IO线程处理，UI线程显示）
+     *
+     * @param t           处理入参
+     * @param transformer 转化器
+     * @param subscriber  订阅事件
+     * @return
+     */
+    public static <T, R> Disposable executeAsyncTask(@NonNull T t, @NonNull ObservableTransformer<T, R> transformer, @NonNull BaseSubscriber<R> subscriber) {
+        return executeAsyncTask(t, transformer).subscribeWith(subscriber);
+    }
 
     //=====================集合、数组遍历处理=========================//
 
@@ -338,9 +419,9 @@ public final class RxJavaUtils {
     /**
      * 遍历数组进行处理（IO线程处理，UI线程显示）
      *
-     * @param t             数组
-     * @param func1         动作
-     * @param consumer      监听事件
+     * @param t        数组
+     * @param func1    动作
+     * @param consumer 监听事件
      * @return
      */
     public static <T, R> Disposable foreach(@NonNull T[] t, @NonNull Function<T, R> func1, @NonNull Consumer<R> consumer) {
@@ -368,9 +449,9 @@ public final class RxJavaUtils {
     /**
      * 遍历数组进行处理（IO线程处理，UI线程显示）
      *
-     * @param t             数组
-     * @param transformer   转化器
-     * @param consumer      监听事件
+     * @param t           数组
+     * @param transformer 转化器
+     * @param consumer    监听事件
      * @return
      */
     public static <T, R> Disposable foreach(@NonNull T[] t, @NonNull FlowableTransformer<T, R> transformer, @NonNull Consumer<R> consumer) {
@@ -398,9 +479,9 @@ public final class RxJavaUtils {
     /**
      * 遍历集合进行处理（IO线程处理，UI线程显示）
      *
-     * @param t             数组
-     * @param func1         动作
-     * @param consumer      监听事件
+     * @param t        数组
+     * @param func1    动作
+     * @param consumer 监听事件
      * @return
      */
     public static <T, R> Disposable foreach(@NonNull Iterable<T> t, @NonNull Function<T, R> func1, @NonNull Consumer<R> consumer) {
@@ -428,9 +509,9 @@ public final class RxJavaUtils {
     /**
      * 遍历集合进行处理（IO线程处理，UI线程显示）
      *
-     * @param t             数组
-     * @param transformer   转化器
-     * @param consumer      监听事件
+     * @param t           数组
+     * @param transformer 转化器
+     * @param consumer    监听事件
      * @return
      */
     public static <T, R> Disposable foreach(@NonNull Iterable<T> t, @NonNull FlowableTransformer<T, R> transformer, @NonNull Consumer<R> consumer) {

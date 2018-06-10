@@ -23,7 +23,7 @@ import com.xuexiang.rxutil2demo.R;
 import com.xuexiang.rxutil2demo.entity.Event;
 import com.xuexiang.rxutil2demo.entity.EventKey;
 import com.xuexiang.rxutil2demo.base.BaseFragment;
-import com.xuexiang.rxutil2demo.util.ThreadPoolManager;
+import com.xuexiang.xutil.system.AppExecutors;
 
 import butterknife.OnClick;
 
@@ -58,7 +58,7 @@ public class RxBusControlFragment extends BaseFragment {
                 RxBusUtils.get().postRxEvent(EventKey.EVENT_NO_DATA);
                 break;
             case R.id.btn_back_mainthread:
-                ThreadPoolManager.getInstance().addTask(new Runnable() {
+                AppExecutors.get().poolIO().execute(new Runnable() {
                     @Override
                     public void run() {
                         RxBusUtils.get().post(EventKey.EVENT_BACK_MAINTHREAD);
@@ -66,7 +66,7 @@ public class RxBusControlFragment extends BaseFragment {
                 });
                 break;
             case R.id.btn_back_normal:
-                ThreadPoolManager.getInstance().addTask(new Runnable() {
+                AppExecutors.get().poolIO().execute(new Runnable() {
                     @Override
                     public void run() {
                         RxBusUtils.get().post(EventKey.EVENT_BACK_NORMAL);

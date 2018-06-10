@@ -116,15 +116,12 @@ public class RxJavaActivity extends BaseActivity {
                 });
                 break;
             case R.id.btn_loading:
-                Observable.just("加载完毕！")
-                        .delay(3, TimeUnit.SECONDS)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new ProgressLoadingSubscriber<String>(mProgressLoader) {
-                            @Override
-                            public void onNext(String s) {
-                                Toast.makeText(RxJavaActivity.this, s, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                RxJavaUtils.delay("加载完毕！", 3, TimeUnit.SECONDS, new ProgressLoadingSubscriber<String>(mProgressLoader) {
+                    @Override
+                    public void onNext(String s) {
+                        Toast.makeText(RxJavaActivity.this, s, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
             case R.id.btn_polling:
                 DisposablePool.get().add(RxJavaUtils.polling(5, new Consumer<Long>() {
