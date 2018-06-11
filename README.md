@@ -282,6 +282,14 @@ RxLifecycle.injectRxLifecycle(this);
 
 2.使用`compose`将订阅绑定至生命周期。
 
+使用`RxLifecycle.with`可以获取生命周期管理者`LifecycleManager`，通过它我们可以将订阅绑定至生命周期。
+
+* `bindToActivityLifecycle`:绑定到特定的Activity生命周期进行订阅注销
+
+* `bindToLifecycle`:自动绑定Activity生命周期进行订阅注销
+
+* `bindOnDestroy`:绑定到Activity的OnDestroy进行订阅注销
+
 ```
 RxJavaUtils.polling(5)
         .compose(RxLifecycle.with(this).<Long>bindToLifecycle())
