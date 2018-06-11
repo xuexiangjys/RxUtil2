@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.squareup.leakcanary.RefWatcher;
+import com.xuexiang.rxutil2.lifecycle.RxLifecycle;
 import com.xuexiang.rxutil2demo.App;
 
 import butterknife.ButterKnife;
@@ -42,6 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        RxLifecycle.injectRxLifecycle(this);
         mUnbinder = ButterKnife.bind(this);
         initArgs();
         initViews();

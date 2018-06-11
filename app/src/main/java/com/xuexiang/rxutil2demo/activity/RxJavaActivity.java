@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.xuexiang.rxutil2.lifecycle.RxLifecycle;
 import com.xuexiang.rxutil2.logs.RxLog;
 import com.xuexiang.rxutil2.rxjava.DisposablePool;
 import com.xuexiang.rxutil2.rxjava.RxJavaUtils;
@@ -44,6 +45,7 @@ import io.reactivex.functions.Consumer;
 
 /**
  * RxJavaUtils演示示例
+ *
  * @author xuexiang
  * @date 2018/3/8 下午3:37
  */
@@ -72,7 +74,7 @@ public class RxJavaActivity extends BaseActivity {
 
     @OnClick({R.id.btn_do_in_io, R.id.btn_do_in_ui, R.id.btn_do_in_io_ui, R.id.btn_loading, R.id.btn_polling, R.id.btn_count_down, R.id.btn_foreach})
     void OnClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.btn_do_in_io:
                 RxJavaUtils.doInIOThread(new RxIOTask<String>("我是入参123") {
                     @Override
@@ -125,12 +127,14 @@ public class RxJavaActivity extends BaseActivity {
                 });
                 break;
             case R.id.btn_polling:
-                DisposablePool.get().add(RxJavaUtils.polling(5, new Consumer<Long>() {
-                    @Override
-                    public void accept(Long o) throws Exception {
-                        Toast.makeText(RxJavaActivity.this, "正在监听", Toast.LENGTH_SHORT).show();
-                    }
-                }), "polling");
+                RxJavaUtils.polling(5)
+                        .compose(RxLifecycle.with(this).<Long>bindToLifecycle())
+                        .subscribe(new Consumer<Long>() {
+                            @Override
+                            public void accept(Long o) throws Exception {
+                                toast("正在监听:" + o);
+                            }
+                        });
                 break;
             case R.id.btn_count_down:
                 DisposablePool.get().add(RxJavaUtils.countDown(30, new SimpleSubscriber<Long>() {
@@ -139,17 +143,19 @@ public class RxJavaActivity extends BaseActivity {
                         super.onStart();
                         mBtnCountDown.setEnabled(false);
                     }
+
                     @Override
                     public void onNext(Long aLong) {
                         mBtnCountDown.setText(String.format("%s s后重新获取", aLong));
                     }
+
                     @Override
                     public void onComplete() {
                         super.onComplete();
                         mBtnCountDown.setText("重新获取");
                         mBtnCountDown.setEnabled(true);
                     }
-                }),"countDown");
+                }), "countDown");
 
                 break;
             case R.id.btn_foreach:
@@ -172,6 +178,7 @@ public class RxJavaActivity extends BaseActivity {
                         RxLog.e("[doInIOThread]" + getLooperStatus() + ", 入参:" + s);
                         return Integer.parseInt(s);
                     }
+
                     @Override
                     public void doInUIThread(Integer integer) {
                         RxLog.e("[doInUIThread]  " + getLooperStatus() + ", 入参:" + integer);
@@ -186,6 +193,7 @@ public class RxJavaActivity extends BaseActivity {
 
     /**
      * 获取当前线程的状态
+     *
      * @return
      */
     public String getLooperStatus() {
@@ -195,7 +203,6 @@ public class RxJavaActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        DisposablePool.get().remove("polling");
         DisposablePool.get().remove("countDown");
         super.onDestroy();
     }

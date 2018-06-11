@@ -120,6 +120,15 @@ public final class RxJavaUtils {
      * 轮询操作
      *
      * @param interval 轮询间期
+     */
+    public static Flowable<Long> polling(long interval) {
+        return polling(0, interval, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 轮询操作
+     *
+     * @param interval 轮询间期
      * @param consumer 监听事件
      */
     public static Disposable polling(long interval, @NonNull Consumer<Long> consumer) {
@@ -135,6 +144,18 @@ public final class RxJavaUtils {
      */
     public static Disposable polling(long initialDelay, long interval, @NonNull Consumer<Long> consumer) {
         return polling(initialDelay, interval, TimeUnit.SECONDS, consumer, new SimpleThrowableAction(TAG));
+    }
+
+    /**
+     * 轮询操作
+     *
+     * @param initialDelay  初始延迟
+     * @param interval      轮询间期
+     * @param unit          轮询间期时间单位
+     */
+    public static Flowable<Long> polling(long initialDelay, long interval, @NonNull TimeUnit unit) {
+        return Flowable.interval(initialDelay, interval, unit)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -226,12 +247,36 @@ public final class RxJavaUtils {
      *
      * @param delayTime  延迟时间
      * @param unit       延迟时间单位
+     */
+    public static Observable<Long> delay(long delayTime, @NonNull TimeUnit unit) {
+        return Observable.timer(delayTime, unit)
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 延迟操作
+     *
+     * @param delayTime  延迟时间
+     * @param unit       延迟时间单位
      * @param subscriber 订阅的事件
      */
     public static Disposable delay(long delayTime, @NonNull TimeUnit unit, @NonNull BaseSubscriber<Long> subscriber) {
         return Observable.timer(delayTime, unit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(subscriber);
+    }
+
+    /**
+     * 延迟操作
+     *
+     * @param t          发射源
+     * @param delayTime  延迟时间
+     * @param unit       延迟时间单位
+     */
+    public static <T> Observable<T> delay(@NonNull T t, long delayTime, @NonNull TimeUnit unit) {
+        return Observable.just(t)
+                .delay(delayTime, unit)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
