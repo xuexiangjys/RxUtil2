@@ -8,12 +8,14 @@
 ## 关于我
 [![github](https://img.shields.io/badge/GitHub-xuexiangjys-blue.svg)](https://github.com/xuexiangjys)   [![csdn](https://img.shields.io/badge/CSDN-xuexiangjys-green.svg)](http://blog.csdn.net/xuexiangjys)
 
-## 内容
-- RxBus 支持多事件定义，支持数据携带，支持全局和局部的事件订阅和注销
-- 订阅池管理
-- 线程调度辅助工具
-- RxBinding 使用工具类
-- RxJava常用方法工具类
+## 特征
+
+* RxBus 支持多事件定义，支持数据携带，支持全局和局部的事件订阅和注销。
+* 订阅池管理。
+* 支持非侵入式的订阅生命周期绑定。
+* 线程调度辅助工具。
+* RxBinding 使用工具类。
+* RxJava常用方法工具类。
 
 ## 1、演示（请star支持）
 
@@ -41,7 +43,12 @@ allprojects {
 ```
 dependencies {
    ...
-   implementation 'com.github.xuexiangjys:RxUtil2:1.0'
+   implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
+   implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+   //rxbinding的sdk
+   implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+
+   implementation 'com.github.xuexiangjys:RxUtil2:1.1.2'
 }
 ```
 ### 3.1、RxBus使用
@@ -253,6 +260,38 @@ RxBindingUtils.setViewClicks(mBtnClick, 5, TimeUnit.SECONDS, new Action1<Object>
 
 ```
 
+### 3.6、RxLifecycle使用
+
+1.使用`RxLifecycle.injectRxLifecycle`进行生命周期的绑定。
+
+（1）在Activity的`onCreate`方法中进行注入和生命周期绑定
+
+```
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(getLayoutId());
+    RxLifecycle.injectRxLifecycle(this);
+}
+```
+（2）当然，如果你嫌麻烦，可以在Application的`onCreate`方法中进行注入和生命周期绑定。
+
+```
+RxLifecycle.injectRxLifecycle(this);
+```
+
+2.使用`compose`将订阅绑定至生命周期。
+
+```
+RxJavaUtils.polling(5)
+        .compose(RxLifecycle.with(this).<Long>bindToLifecycle())
+        .subscribe(new SimpleSubscriber<Long>() {
+            @Override
+            public void onNext(Long aLong) {
+                toast(" 正在监听 :" + aLong);
+            }
+        });
+```
 
 ## 联系方式
 
@@ -260,7 +299,7 @@ RxBindingUtils.setViewClicks(mBtnClick, 5, TimeUnit.SECONDS, new Action1<Object>
 
 ![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
 
-[rxSvg]: https://img.shields.io/badge/RxUtil2-v1.0-brightgreen.svg
+[rxSvg]: https://img.shields.io/badge/RxUtil2-1.1.2-brightgreen.svg
 [rx]: https://github.com/xuexiangjys/RxUtil2
 [apiSvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
 [api]: https://android-arsenal.com/api?level=14
