@@ -16,6 +16,8 @@
 
 package com.xuexiang.rxutil2.rxjava;
 
+import com.xuexiang.rxutil2.rxjava.scheduler.SchedulerType;
+
 import org.reactivestreams.Publisher;
 
 import io.reactivex.Flowable;
@@ -66,12 +68,7 @@ public final class RxSchedulerUtils {
      * @return
      */
     public static <T> FlowableTransformer<T, T> _main_f() {
-        return new FlowableTransformer<T, T>() {
-            @Override
-            public Publisher<T> apply(Flowable<T> flowable) {
-                return RxSchedulerUtils.toMain(flowable);
-            }
-        };
+        return new SchedulerTransformer<>(SchedulerType._main);
     }
 
     /**
@@ -82,12 +79,7 @@ public final class RxSchedulerUtils {
      * @return
      */
     public static <T> FlowableTransformer<T, T> _io_f() {
-        return new FlowableTransformer<T, T>() {
-            @Override
-            public Publisher<T> apply(Flowable<T> flowable) {
-                return RxSchedulerUtils.toIo(flowable);
-            }
-        };
+        return new SchedulerTransformer<>(SchedulerType._io);
     }
 
     /**
@@ -97,15 +89,7 @@ public final class RxSchedulerUtils {
      * @return
      */
     public static <T> FlowableTransformer<T, T> _io_main_f() {
-        return new FlowableTransformer<T, T>() {
-            @Override
-            public Publisher<T> apply(Flowable<T> flowable) {
-                return flowable
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
+        return new SchedulerTransformer<>(SchedulerType._io_main);
     }
 
     /**
@@ -115,15 +99,7 @@ public final class RxSchedulerUtils {
      * @return
      */
     public static <T> FlowableTransformer<T, T> _io_io_f() {
-        return new FlowableTransformer<T, T>() {
-            @Override
-            public Publisher<T> apply(Flowable<T> flowable) {
-                return flowable
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io());
-            }
-        };
+        return new SchedulerTransformer<>(SchedulerType._io_io);
     }
 
     //==========================Observable==========================//
@@ -156,12 +132,7 @@ public final class RxSchedulerUtils {
      * @return
      */
     public static <T> ObservableTransformer<T, T> _main_o() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(Observable<T> tObservable) {
-                return RxSchedulerUtils.toMain(tObservable);
-            }
-        };
+        return new SchedulerTransformer<>(SchedulerType._main);
     }
 
     /**
@@ -172,12 +143,7 @@ public final class RxSchedulerUtils {
      * @return
      */
     public static <T> ObservableTransformer<T, T> _io_o() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(Observable<T> tObservable) {
-                return RxSchedulerUtils.toIo(tObservable);
-            }
-        };
+        return new SchedulerTransformer<>(SchedulerType._io);
     }
 
 
@@ -188,15 +154,7 @@ public final class RxSchedulerUtils {
      * @return
      */
     public static <T> ObservableTransformer<T, T> _io_main_o() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(Observable<T> tObservable) {
-                return tObservable
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
+        return new SchedulerTransformer<>(SchedulerType._io_main);
     }
 
 
@@ -207,15 +165,7 @@ public final class RxSchedulerUtils {
      * @return
      */
     public static <T> ObservableTransformer<T, T> _io_io_o() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(Observable<T> tObservable) {
-                return tObservable
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io());
-            }
-        };
+        return new SchedulerTransformer<>(SchedulerType._io_io);
     }
 
 
