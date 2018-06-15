@@ -48,6 +48,15 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
         RxLog.e("-->Subscriber is Complete");
     }
 
+    @Override
+    public void onNext(T t) {
+        try {
+            onSuccess(t);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            onError(e);
+        }
+    }
 
     @Override
     public final void onError(Throwable e) {
@@ -67,8 +76,16 @@ public abstract class BaseSubscriber<T> extends DisposableObserver<T> {
 
     /**
      * 出错
+     *
      * @param e
      */
     public abstract void onError(RxException e);
+
+    /**
+     * 安全版的{@link #onNext},自动做了try-catch
+     *
+     * @param t
+     */
+    public abstract void onSuccess(T t);
 
 }

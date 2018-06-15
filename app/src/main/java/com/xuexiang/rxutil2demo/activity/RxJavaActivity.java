@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * RxJavaUtils演示示例
@@ -93,16 +94,16 @@ public class RxJavaActivity extends BaseActivity {
                 });
                 break;
             case R.id.btn_do_in_io_ui:
-//                RxJavaUtils.executeAsyncTask("我是入参789", new Function<String, Integer>() {
+//                RxJavaUtils.executeAsyncTask2("我是入参789", new Function<String, Integer>() {
 //                    @Override
 //                    public Integer apply(String s) throws Exception {
 //                        Log.e(TAG, "[doInIOThread]  " + getLooperStatus() + ", 入参:" + s);
 //                        return 12345;
 //                    }
-//                }, new Consumer<Integer>() {
+//                }, new SimpleSubscriber<Integer>() {
 //                    @Override
-//                    public void accept(Integer integer) throws Exception {
-//                        Log.e(TAG, "[doInUIThread]  " + getLooperStatus() + ", 入参:" + integer);
+//                    public void onSuccess(Integer integer) {
+//                        int a = 100/0;
 //                    }
 //                });
                 RxJavaUtils.executeAsyncTask(new RxAsyncTask<String, Integer>("我是入参789") {
@@ -121,7 +122,7 @@ public class RxJavaActivity extends BaseActivity {
             case R.id.btn_loading:
                 RxJavaUtils.delay("加载完毕！", 3, TimeUnit.SECONDS, new ProgressLoadingSubscriber<String>(mProgressLoader) {
                     @Override
-                    public void onNext(String s) {
+                    public void onSuccess(String s) {
                         Toast.makeText(RxJavaActivity.this, s, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -145,7 +146,7 @@ public class RxJavaActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(Long aLong) {
+                    public void onSuccess(Long aLong) {
                         mBtnCountDown.setText(String.format("%s s后重新获取", aLong));
                     }
 
