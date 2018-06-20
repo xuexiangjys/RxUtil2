@@ -48,7 +48,7 @@ dependencies {
    //rxbinding的sdk
    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
-   implementation 'com.github.xuexiangjys:RxUtil2:1.1.3'
+   implementation 'com.github.xuexiangjys:RxUtil2:1.1.4'
 }
 ```
 ### 3.1、RxBus使用
@@ -307,7 +307,7 @@ RxJavaUtils.polling(5)
 
 ![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
 
-[rxSvg]: https://img.shields.io/badge/RxUtil2-1.1.3-brightgreen.svg
+[rxSvg]: https://img.shields.io/badge/RxUtil2-1.1.4-brightgreen.svg
 [rx]: https://github.com/xuexiangjys/RxUtil2
 [apiSvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
 [api]: https://android-arsenal.com/api?level=14
