@@ -27,7 +27,7 @@ import io.reactivex.schedulers.Schedulers;
  * @author xuexiang
  * @since 2018/6/12 下午11:25
  */
-public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, FlowableTransformer<T, T>, SingleTransformer<T, T>, MaybeTransformer<T, T> , CompletableTransformer {
+public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, FlowableTransformer<T, T>, SingleTransformer<T, T>, MaybeTransformer<T, T>, CompletableTransformer {
 
     /**
      * 线程类型
@@ -42,23 +42,19 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
     public ObservableSource<T> apply(Observable<T> upstream) {
         switch (mSchedulerType) {
             case _main:
-                upstream.observeOn(AndroidSchedulers.mainThread());
-                break;
+                return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                upstream.observeOn(Schedulers.io());
-                break;
+                return upstream.observeOn(Schedulers.io());
             case _io_main:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
-                break;
             case _io_io:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io());
-                break;
             default:
                 break;
         }
@@ -69,23 +65,19 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
     public Publisher<T> apply(Flowable<T> upstream) {
         switch (mSchedulerType) {
             case _main:
-                upstream.observeOn(AndroidSchedulers.mainThread());
-                break;
+                return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                upstream.observeOn(Schedulers.io());
-                break;
+                return upstream.observeOn(Schedulers.io());
             case _io_main:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
-                break;
             case _io_io:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io());
-                break;
             default:
                 break;
         }
@@ -96,23 +88,19 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
     public MaybeSource<T> apply(Maybe<T> upstream) {
         switch (mSchedulerType) {
             case _main:
-                upstream.observeOn(AndroidSchedulers.mainThread());
-                break;
+                return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                upstream.observeOn(Schedulers.io());
-                break;
+                return upstream.observeOn(Schedulers.io());
             case _io_main:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
-                break;
             case _io_io:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io());
-                break;
             default:
                 break;
         }
@@ -123,23 +111,19 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
     public SingleSource<T> apply(Single<T> upstream) {
         switch (mSchedulerType) {
             case _main:
-                upstream.observeOn(AndroidSchedulers.mainThread());
-                break;
+                return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                upstream.observeOn(Schedulers.io());
-                break;
+                return upstream.observeOn(Schedulers.io());
             case _io_main:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
-                break;
             case _io_io:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io());
-                break;
             default:
                 break;
         }
@@ -150,23 +134,19 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
     public CompletableSource apply(Completable upstream) {
         switch (mSchedulerType) {
             case _main:
-                upstream.observeOn(AndroidSchedulers.mainThread());
-                break;
+                return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                upstream.observeOn(Schedulers.io());
-                break;
+                return upstream.observeOn(Schedulers.io());
             case _io_main:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
-                break;
             case _io_io:
-                upstream
+                return upstream
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io());
-                break;
             default:
                 break;
         }

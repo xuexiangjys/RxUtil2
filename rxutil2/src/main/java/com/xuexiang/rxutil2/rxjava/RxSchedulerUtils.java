@@ -18,12 +18,9 @@ package com.xuexiang.rxutil2.rxjava;
 
 import com.xuexiang.rxutil2.rxjava.scheduler.SchedulerType;
 
-import org.reactivestreams.Publisher;
-
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

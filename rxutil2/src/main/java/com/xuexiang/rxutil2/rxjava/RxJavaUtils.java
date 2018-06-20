@@ -149,9 +149,9 @@ public final class RxJavaUtils {
     /**
      * 轮询操作
      *
-     * @param initialDelay  初始延迟
-     * @param interval      轮询间期
-     * @param unit          轮询间期时间单位
+     * @param initialDelay 初始延迟
+     * @param interval     轮询间期
+     * @param unit         轮询间期时间单位
      */
     public static Flowable<Long> polling(long initialDelay, long interval, @NonNull TimeUnit unit) {
         return Flowable.interval(initialDelay, interval, unit)
@@ -174,6 +174,7 @@ public final class RxJavaUtils {
     }
 
     //=================倒计时=================//
+
     /**
      * 倒计时操作【间隔1秒】
      *
@@ -245,8 +246,8 @@ public final class RxJavaUtils {
     /**
      * 延迟操作
      *
-     * @param delayTime  延迟时间
-     * @param unit       延迟时间单位
+     * @param delayTime 延迟时间
+     * @param unit      延迟时间单位
      */
     public static Observable<Long> delay(long delayTime, @NonNull TimeUnit unit) {
         return Observable.timer(delayTime, unit)
@@ -269,9 +270,9 @@ public final class RxJavaUtils {
     /**
      * 延迟操作
      *
-     * @param t          发射源
-     * @param delayTime  延迟时间
-     * @param unit       延迟时间单位
+     * @param t         发射源
+     * @param delayTime 延迟时间
+     * @param unit      延迟时间单位
      */
     public static <T> Observable<T> delay(@NonNull T t, long delayTime, @NonNull TimeUnit unit) {
         return Observable.just(t)
@@ -359,14 +360,13 @@ public final class RxJavaUtils {
     /**
      * 执行异步任务（IO线程处理，UI线程显示）
      *
-     * @param t     处理入参
      * @param func1 动作
      * @return
      */
-    public static <T, R> Observable<R> executeAsyncTask2(@NonNull T t, @NonNull Function<T, R> func1) {
-        return Observable.just(t)
+    public static <R> Flowable<R> executeAsyncTask(@NonNull Function<Integer, R> func1) {
+        return Flowable.just(1)
                 .map(func1)
-                .compose(RxSchedulerUtils.<R>_io_main_o());
+                .compose(RxSchedulerUtils.<R>_io_main_f());
     }
 
     /**
@@ -398,6 +398,31 @@ public final class RxJavaUtils {
     /**
      * 执行异步任务（IO线程处理，UI线程显示）
      *
+     * @param t     处理入参
+     * @param func1 动作
+     * @return
+     */
+    public static <T, R> Observable<R> executeAsyncTask2(@NonNull T t, @NonNull Function<T, R> func1) {
+        return Observable.just(t)
+                .map(func1)
+                .compose(RxSchedulerUtils.<R>_io_main_o());
+    }
+
+    /**
+     * 执行异步任务（IO线程处理，UI线程显示）
+     *
+     * @param func1 动作
+     * @return
+     */
+    public static <R> Observable<R> executeAsyncTask2(@NonNull Function<Integer, R> func1) {
+        return Observable.just(1)
+                .map(func1)
+                .compose(RxSchedulerUtils.<R>_io_main_o());
+    }
+
+    /**
+     * 执行异步任务（IO线程处理，UI线程显示）
+     *
      * @param t          处理入参
      * @param func1      动作
      * @param subscriber 订阅事件
@@ -405,6 +430,17 @@ public final class RxJavaUtils {
      */
     public static <T, R> Disposable executeAsyncTask2(@NonNull T t, @NonNull Function<T, R> func1, @NonNull BaseSubscriber<R> subscriber) {
         return executeAsyncTask2(t, func1).subscribeWith(subscriber);
+    }
+
+    /**
+     * 执行异步任务（IO线程处理，UI线程显示）
+     *
+     * @param func1      动作
+     * @param subscriber 订阅事件
+     * @return
+     */
+    public static <R> Disposable executeAsyncTask2(@NonNull Function<Integer, R> func1, @NonNull BaseSubscriber<R> subscriber) {
+        return executeAsyncTask2(func1).subscribeWith(subscriber);
     }
 
     //==================Transformer=====================//

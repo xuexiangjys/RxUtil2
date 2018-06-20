@@ -50,11 +50,7 @@ public class ProgressDialogLoader implements IProgressLoader {
 
     @Override
     public boolean isLoading() {
-        if (mDialog != null) {
-            return mDialog.isShowing();
-        } else {
-            return false;
-        }
+        return mDialog != null && mDialog.isShowing();
     }
 
     @Override

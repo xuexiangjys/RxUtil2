@@ -43,6 +43,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.subscribers.SafeSubscriber;
 
 /**
  * RxJavaUtils演示示例
@@ -103,9 +104,35 @@ public class RxJavaActivity extends BaseActivity {
 //                }, new SimpleSubscriber<Integer>() {
 //                    @Override
 //                    public void onSuccess(Integer integer) {
-//                        int a = 100/0;
+//                        Log.e(TAG, "[doInUIThread]  " + getLooperStatus() + ", 入参:" + integer);
 //                    }
 //                });
+//                RxJavaUtils.executeAsyncTask(new Function<Integer, Integer>() {
+//                    @Override
+//                    public Integer apply(Integer integer) throws Exception {
+//                        Log.e(TAG, "[doInIOThread]  " + getLooperStatus());
+//                        return 12345;
+//                    }
+//                }).subscribe(new Consumer<Integer>() {
+//                    @Override
+//                    public void accept(Integer integer) throws Exception {
+//                        Log.e(TAG, "[doInUIThread]  " + getLooperStatus() + ", 入参:" + integer);
+//                    }
+//                });
+
+//                RxJavaUtils.executeAsyncTask2(new Function<Integer, Integer>() {
+//                    @Override
+//                    public Integer apply(Integer integer) throws Exception {
+//                        Log.e(TAG, "[doInIOThread]  " + getLooperStatus());
+//                        return 12345;
+//                    }
+//                }, new SimpleSubscriber<Integer>() {
+//                    @Override
+//                    public void onSuccess(Integer integer) {
+//                        Log.e(TAG, "[doInUIThread]  " + getLooperStatus() + ", 入参:" + integer);
+//                    }
+//                });
+
                 RxJavaUtils.executeAsyncTask(new RxAsyncTask<String, Integer>("我是入参789") {
                     @Override
                     public Integer doInIOThread(String s) {
