@@ -66,7 +66,7 @@ public class RxBus {
      * @return 订阅者
      */
     public <T> Flowable<T> register(@NonNull Object eventName, Class<T> clazz) {
-        return register(eventName).toFlowable(BackpressureStrategy.BUFFER).ofType(clazz);
+        return register(eventName).toFlowable(BackpressureStrategy.LATEST).ofType(clazz);
     }
 
     /**

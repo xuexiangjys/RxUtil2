@@ -318,9 +318,8 @@ public final class RxJavaUtils {
      */
     public static <T, R> Disposable executeAsyncTask(@NonNull RxAsyncTask<T, R> rxTask, @NonNull Consumer<Throwable> errorConsumer) {
         RxTaskOnSubscribe<RxAsyncTask<T, R>> onSubscribe = getRxAsyncTaskOnSubscribe(rxTask);
-        return Flowable.create(onSubscribe, BackpressureStrategy.DROP)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        return Flowable.create(onSubscribe, BackpressureStrategy.LATEST)
+                .compose(RxSchedulerUtils.<RxAsyncTask<T, R>>_io_main_f())
                 .subscribe(new Consumer<RxAsyncTask<T, R>>() {
                     @Override
                     public void accept(RxAsyncTask<T, R> rxAsyncTask) throws Exception {
