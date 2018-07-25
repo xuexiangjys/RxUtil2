@@ -34,6 +34,10 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
      */
     private SchedulerType mSchedulerType;
 
+    public SchedulerTransformer() {
+        mSchedulerType = SchedulerType._io_main;
+    }
+
     public SchedulerTransformer(SchedulerType schedulerType) {
         mSchedulerType = schedulerType;
     }
@@ -44,17 +48,17 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
             case _main:
                 return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                return upstream.observeOn(Schedulers.io());
+                return upstream.observeOn(RxSchedulerUtils.io());
             case _io_main:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
                         .observeOn(AndroidSchedulers.mainThread());
             case _io_io:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io());
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
+                        .observeOn(RxSchedulerUtils.io());
             default:
                 break;
         }
@@ -67,17 +71,17 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
             case _main:
                 return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                return upstream.observeOn(Schedulers.io());
+                return upstream.observeOn(RxSchedulerUtils.io());
             case _io_main:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
                         .observeOn(AndroidSchedulers.mainThread());
             case _io_io:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io());
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
+                        .observeOn(RxSchedulerUtils.io());
             default:
                 break;
         }
@@ -90,17 +94,17 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
             case _main:
                 return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                return upstream.observeOn(Schedulers.io());
+                return upstream.observeOn(RxSchedulerUtils.io());
             case _io_main:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
                         .observeOn(AndroidSchedulers.mainThread());
             case _io_io:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io());
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
+                        .observeOn(RxSchedulerUtils.io());
             default:
                 break;
         }
@@ -113,17 +117,17 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
             case _main:
                 return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                return upstream.observeOn(Schedulers.io());
+                return upstream.observeOn(RxSchedulerUtils.io());
             case _io_main:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
                         .observeOn(AndroidSchedulers.mainThread());
             case _io_io:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io());
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
+                        .observeOn(RxSchedulerUtils.io());
             default:
                 break;
         }
@@ -136,17 +140,17 @@ public class SchedulerTransformer<T> implements ObservableTransformer<T, T>, Flo
             case _main:
                 return upstream.observeOn(AndroidSchedulers.mainThread());
             case _io:
-                return upstream.observeOn(Schedulers.io());
+                return upstream.observeOn(RxSchedulerUtils.io());
             case _io_main:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
                         .observeOn(AndroidSchedulers.mainThread());
             case _io_io:
                 return upstream
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io());
+                        .subscribeOn(RxSchedulerUtils.io())
+                        .unsubscribeOn(RxSchedulerUtils.io())
+                        .observeOn(RxSchedulerUtils.io());
             default:
                 break;
         }

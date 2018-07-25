@@ -18,10 +18,13 @@ package com.xuexiang.rxutil2.rxjava;
 
 import com.xuexiang.rxutil2.rxjava.scheduler.SchedulerType;
 
+import java.util.concurrent.Executor;
+
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -32,6 +35,21 @@ import io.reactivex.schedulers.Schedulers;
  * @since 2018/6/10 下午9:28
  */
 public final class RxSchedulerUtils {
+
+    private static Executor sExecutor;
+
+    /**
+     * 设置自定义RxJava的线程池
+     *
+     * @param sExecutor
+     */
+    public static void setIOExecutor(Executor sExecutor) {
+        RxSchedulerUtils.sExecutor = sExecutor;
+    }
+
+    public static Scheduler io() {
+        return sExecutor != null ? Schedulers.from(sExecutor) : Schedulers.io();
+    }
 
     //==========================Flowable===========================//
 
