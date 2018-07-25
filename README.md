@@ -269,7 +269,9 @@ RxBindingUtils.setViewClicks(mBtnClick, 5, TimeUnit.SECONDS, new Action1<Object>
 使用`RxSchedulerUtils.setIOExecutor`可以替换工具类中使用的io线程：
 
 ```
-RxSchedulerUtils.setIOExecutor(AppExecutors.get().poolIO());
+RxSchedulerUtils.setIOExecutor(AppExecutors.get().poolIO()); //全局替换
+
+.compose(new SchedulerTransformer<Integer>(AppExecutors.get().poolIO())) //局部替换
 ```
 
 ### 3.6、RxLifecycle使用
