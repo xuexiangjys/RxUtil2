@@ -16,6 +16,7 @@
 
 package com.xuexiang.rxutil2demo.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,8 @@ import com.xuexiang.rxutil2.lifecycle.RxLifecycle;
 import com.xuexiang.rxutil2.logs.RxLog;
 import com.xuexiang.rxutil2.rxjava.DisposablePool;
 import com.xuexiang.rxutil2.rxjava.RxJavaUtils;
+import com.xuexiang.rxutil2.rxjava.RxSchedulerUtils;
+import com.xuexiang.rxutil2.rxjava.SchedulerTransformer;
 import com.xuexiang.rxutil2.rxjava.task.RxAsyncTask;
 import com.xuexiang.rxutil2.rxjava.task.RxIOTask;
 import com.xuexiang.rxutil2.rxjava.task.RxIteratorTask;
@@ -36,14 +39,17 @@ import com.xuexiang.rxutil2.subsciber.SimpleSubscriber;
 import com.xuexiang.rxutil2.subsciber.impl.IProgressLoader;
 import com.xuexiang.rxutil2demo.R;
 import com.xuexiang.rxutil2demo.base.BaseActivity;
+import com.xuexiang.xutil.system.AppExecutors;
+import com.xuexiang.xutil.tip.ToastUtils;
 
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.subscribers.SafeSubscriber;
 
 /**
  * RxJavaUtils演示示例
@@ -74,7 +80,7 @@ public class RxJavaActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.btn_do_in_io, R.id.btn_do_in_ui, R.id.btn_do_in_io_ui, R.id.btn_loading, R.id.btn_polling, R.id.btn_count_down, R.id.btn_foreach})
+    @OnClick({R.id.btn_do_in_io, R.id.btn_do_in_ui, R.id.btn_do_in_io_ui, R.id.btn_loading, R.id.btn_polling, R.id.btn_count_down, R.id.btn_foreach, R.id.btn_oom_test, R.id.btn_oom_resolve})
     void OnClick(View v) {
         switch (v.getId()) {
             case R.id.btn_do_in_io:
@@ -213,10 +219,62 @@ public class RxJavaActivity extends BaseActivity {
                     }
                 });
                 break;
+            case R.id.btn_oom_test:
+                for (int i = 0; i < 10000; i++) {
+                    test();
+                }
+                break;
+            case R.id.btn_oom_resolve:
+                for (int i = 0; i < 10000; i++) {
+                    testResolve();
+                }
+                break;
             default:
                 break;
         }
 
+    }
+
+    @SuppressLint("CheckResult")
+    private void test() {
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                try {
+                    Thread.sleep(100000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                emitter.onNext(3);
+                emitter.onComplete();
+            }
+        }).compose(RxSchedulerUtils.<Integer>_io_main_o()).subscribeWith(new SimpleSubscriber<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                ToastUtils.toast("索引:" + integer);
+            }
+        });
+    }
+
+    @SuppressLint("CheckResult")
+    private void testResolve() {
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                try {
+                    Thread.sleep(100000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                emitter.onNext(3);
+                emitter.onComplete();
+            }
+        }).compose(new SchedulerTransformer<Integer>(AppExecutors.get().poolIO())).subscribeWith(new SimpleSubscriber<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                ToastUtils.toast("索引:" + integer);
+            }
+        });
     }
 
     /**

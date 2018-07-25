@@ -60,4 +60,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="数组集合处理" />
+
+    <Button
+        android:id="@+id/btn_oom_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="内存溢出测试" />
+
+    <Button
+        android:id="@+id/btn_oom_resolve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="内存溢出解决方案" />
+
 </LinearLayout>

@@ -36,7 +36,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public final class RxSchedulerUtils {
 
-    private static Executor sExecutor;
+    private static Executor sIOExecutor;
 
     /**
      * 设置自定义RxJava的线程池
@@ -44,11 +44,19 @@ public final class RxSchedulerUtils {
      * @param sExecutor
      */
     public static void setIOExecutor(Executor sExecutor) {
-        RxSchedulerUtils.sExecutor = sExecutor;
+        RxSchedulerUtils.sIOExecutor = sExecutor;
+    }
+
+    public static Executor getIOExecutor() {
+        return sIOExecutor;
     }
 
     public static Scheduler io() {
-        return sExecutor != null ? Schedulers.from(sExecutor) : Schedulers.io();
+        return io(sIOExecutor);
+    }
+
+    public static Scheduler io(Executor executor) {
+        return executor != null ? Schedulers.from(executor) : Schedulers.io();
     }
 
     //==========================Flowable===========================//
