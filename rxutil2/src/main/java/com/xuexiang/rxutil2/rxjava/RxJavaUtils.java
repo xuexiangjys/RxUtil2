@@ -16,7 +16,7 @@
 
 package com.xuexiang.rxutil2.rxjava;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.xuexiang.rxutil2.rxjava.task.RxAsyncTask;
 import com.xuexiang.rxutil2.rxjava.task.RxIOTask;

@@ -16,9 +16,10 @@
 
 package com.xuexiang.rxutil2.logs;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 /**
  * RxLog日志记录

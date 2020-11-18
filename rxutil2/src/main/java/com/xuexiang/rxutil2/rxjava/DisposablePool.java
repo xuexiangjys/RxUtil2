@@ -16,7 +16,7 @@
 
 package com.xuexiang.rxutil2.rxjava;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -48,6 +48,7 @@ public class DisposablePool {
 
     /**
      * 获取订阅池
+     *
      * @return
      */
     public static DisposablePool get() {
@@ -64,11 +65,12 @@ public class DisposablePool {
 
     /**
      * 根据tagName管理订阅【注册订阅信息】
-     * @param tagName 标志
+     *
+     * @param tagName    标志
      * @param disposable 订阅信息
      */
     public Disposable add(@NonNull Object tagName, Disposable disposable) {
-		/* 订阅管理 */
+        /* 订阅管理 */
         CompositeDisposable compositeDisposable = maps.get(tagName);
         if (compositeDisposable == null) {
             compositeDisposable = new CompositeDisposable();
@@ -80,12 +82,12 @@ public class DisposablePool {
 
     /**
      * 根据tagName管理订阅【注册订阅信息】
-     * @param disposable 订阅信息
-     * @param tagName 标志
      *
+     * @param disposable 订阅信息
+     * @param tagName    标志
      */
     public Disposable add(Disposable disposable, @NonNull Object tagName) {
-		/* 订阅管理 */
+        /* 订阅管理 */
         CompositeDisposable compositeDisposable = maps.get(tagName);
         if (compositeDisposable == null) {
             compositeDisposable = new CompositeDisposable();
@@ -97,6 +99,7 @@ public class DisposablePool {
 
     /**
      * 取消订阅【取消标志内所有订阅信息】
+     *
      * @param tagName 标志
      */
     public void remove(@NonNull Object tagName) {
@@ -109,7 +112,8 @@ public class DisposablePool {
 
     /**
      * 取消订阅【单个订阅取消】
-     * @param tagName 标志
+     *
+     * @param tagName    标志
      * @param disposable 订阅信息
      */
     public void remove(@NonNull Object tagName, Disposable disposable) {
@@ -141,6 +145,7 @@ public class DisposablePool {
 
     /**
      * 取消订阅
+     *
      * @param disposable 订阅信息
      */
     public static void dispose(Disposable disposable) {

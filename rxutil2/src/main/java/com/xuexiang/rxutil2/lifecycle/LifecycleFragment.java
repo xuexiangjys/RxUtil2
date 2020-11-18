@@ -2,7 +2,8 @@ package com.xuexiang.rxutil2.lifecycle;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;

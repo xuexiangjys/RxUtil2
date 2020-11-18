@@ -1,11 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion build_versions.target_sdk
     }
 
     lintOptions {
@@ -14,12 +15,12 @@ android {
 }
 
 dependencies {
-    compileOnly 'com.android.support:appcompat-v7:26.1.0'
-    compileOnly 'io.reactivex.rxjava2:rxjava:2.1.12'
-    compileOnly 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    compileOnly deps.androidx.appcompat
+    compileOnly 'io.reactivex.rxjava2:rxjava:2.2.20'
+    compileOnly 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //rxbinding的sdk
-    compileOnly 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+    compileOnly 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
 }
 
-apply from: "https://raw.githubusercontent.com/xuexiangjys/XUtil/master/JitPackUpload.gradle"
+apply from: "../JitPackUpload.gradle"

@@ -15,7 +15,8 @@
  */
 package com.xuexiang.rxutil2.rxbus;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;

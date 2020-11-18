@@ -19,11 +19,12 @@ package com.xuexiang.rxutil2demo.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.leakcanary.RefWatcher;
 import com.xuexiang.rxutil2.lifecycle.RxLifecycle;

@@ -6,9 +6,10 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import java.lang.reflect.Field;
 
@@ -107,8 +108,8 @@ public final class RxLifecycle {
      * @return
      */
     private static LifecycleManager with(FragmentActivity activity) {
-        android.support.v4.app.FragmentManager fm = activity.getSupportFragmentManager();
-        android.support.v4.app.Fragment fragment = fm.findFragmentByTag(FRAGMENT_TAG);
+        androidx.fragment.app.FragmentManager fm = activity.getSupportFragmentManager();
+        androidx.fragment.app.Fragment fragment = fm.findFragmentByTag(FRAGMENT_TAG);
         if (fragment == null) {
             fragment = new LifecycleV4Fragment();
             fm.beginTransaction().add(fragment, FRAGMENT_TAG).commitNowAllowingStateLoss();
@@ -133,7 +134,7 @@ public final class RxLifecycle {
      * @param fragment
      * @return
      */
-    public static LifecycleManager with(android.support.v4.app.Fragment fragment) {
+    public static LifecycleManager with(androidx.fragment.app.Fragment fragment) {
         return with(fragment.getActivity());
     }
 

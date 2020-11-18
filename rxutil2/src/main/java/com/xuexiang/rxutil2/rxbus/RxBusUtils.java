@@ -15,7 +15,7 @@
  */
 package com.xuexiang.rxutil2.rxbus;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.xuexiang.rxutil2.subsciber.SimpleThrowableAction;
 
