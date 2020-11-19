@@ -25,10 +25,11 @@
 ## 1、演示（请star支持）
 
 ### 1.1、RxBus
-![](https://github.com/xuexiangjys/RxUtil/blob/master/img/rxbus.gif)
 
+![](https://img.rruu.net/image/5fb69f7b3113f)
 
 ## 2、如何使用
+
 目前支持主流开发工具AndroidStudio的使用，直接配置build.gradle，增加依赖即可.
 
 ### 2.1、Android Studio导入方法，添加Gradle依赖

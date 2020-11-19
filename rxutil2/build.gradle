@@ -16,11 +16,11 @@ android {
 
 dependencies {
     compileOnly deps.androidx.appcompat
-    compileOnly 'io.reactivex.rxjava2:rxjava:2.2.20'
-    compileOnly 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    compileOnly deps.rxjava2
+    compileOnly deps.rxandroid
 
     //rxbinding的sdk
-    compileOnly 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
+    compileOnly deps.rxbinding
 }
 
 apply from: "../JitPackUpload.gradle"
