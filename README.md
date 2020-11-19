@@ -1,12 +1,17 @@
 # RxUtil2
-[![RxUtil2][rxSvg]][rx]  [![api][apiSvg]][api]
+
+[![](https://jitpack.io/v/xuexiangjys/RxUtil2.svg)](https://jitpack.io/#xuexiangjys/RxUtil2)
+[![api](https://img.shields.io/badge/API-14+-brightgreen.svg)](https://android-arsenal.com/api?level=14)
+[![I](https://img.shields.io/github/issues/xuexiangjys/RxUtil2.svg)](https://github.com/xuexiangjys/RxUtil2/issues)
+[![Star](https://img.shields.io/github/stars/xuexiangjys/RxUtil2.svg)](https://github.com/xuexiangjys/RxUtil2)
 
 一个实用的RxJava2工具类库。
 
 > 如果你习惯RxJava1，请移步[RxUtil](https://github.com/xuexiangjys/RxUtil)
 
 ## 关于我
-[![github](https://img.shields.io/badge/GitHub-xuexiangjys-blue.svg)](https://github.com/xuexiangjys)   [![csdn](https://img.shields.io/badge/CSDN-xuexiangjys-green.svg)](http://blog.csdn.net/xuexiangjys)
+
+[![github](https://img.shields.io/badge/GitHub-xuexiangjys-blue.svg)](https://github.com/xuexiangjys)   [![csdn](https://img.shields.io/badge/CSDN-xuexiangjys-green.svg)](http://blog.csdn.net/xuexiangjys)   [![简书](https://img.shields.io/badge/简书-xuexiangjys-red.svg)](https://www.jianshu.com/u/6bf605575337)   [![掘金](https://img.shields.io/badge/掘金-xuexiangjys-brightgreen.svg)](https://juejin.im/user/598feef55188257d592e56ed)   [![知乎](https://img.shields.io/badge/知乎-xuexiangjys-violet.svg)](https://www.zhihu.com/people/xuexiangjys)
 
 ## 特征
 
@@ -43,12 +48,12 @@ allprojects {
 ```
 dependencies {
    ...
-   implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
-   implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+   implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
+   implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
    //rxbinding的sdk
-   implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+   implementation 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
 
-   implementation 'com.github.xuexiangjys:RxUtil2:1.1.5'
+   implementation 'com.github.xuexiangjys:RxUtil2:1.2.0'
 }
 ```
 ### 3.1、RxBus使用
@@ -315,14 +320,9 @@ RxJavaUtils.polling(5)
         });
 ```
 
-## 联系方式
+## 公众号
 
-[![](https://img.shields.io/badge/点击一键加入QQ群-602082750-blue.svg)](http://shang.qq.com/wpa/qunwpa?idkey=9922861ef85c19f1575aecea0e8680f60d9386080a97ed310c971ae074998887)
+> 更多资讯内容，欢迎扫描关注我的个人微信公众号:【我的Android开源之旅】
 
-![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
-
-[rxSvg]: https://img.shields.io/badge/RxUtil2-1.1.5-brightgreen.svg
-[rx]: https://github.com/xuexiangjys/RxUtil2
-[apiSvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
-[api]: https://android-arsenal.com/api?level=14
+![gzh_weixin.jpg](https://img.rruu.net/image/5f871cfff3194)
 
