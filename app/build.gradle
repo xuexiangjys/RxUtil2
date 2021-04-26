@@ -38,8 +38,8 @@ dependencies {
     implementation deps.rxandroid
     implementation deps.rxbinding
 
-    implementation project(':rxutil2')
-//    implementation 'com.github.xuexiangjys:RxUtil2:1.2.0'
+//    implementation project(':rxutil2')
+    implementation 'com.github.xuexiangjys:RxUtil2:1.2.1'
 
     //leak
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
