@@ -18,9 +18,8 @@ package com.xuexiang.rxutil2.rxbus;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -33,12 +32,12 @@ import io.reactivex.subjects.Subject;
  * @author xuexiang
  * @since 2018/3/1 上午10:30
  */
-public class RxBus {
+public final class RxBus {
 
     /**
      * 事件订阅的注册池， Key：事件名， value：事件的订阅者（事件的消费者、目标）
      */
-    private ConcurrentHashMap<Object, List<Subject>> maps = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Object, CopyOnWriteArrayList<Subject>> maps = new ConcurrentHashMap<>();
 
     private static RxBus sInstance;
 
@@ -58,7 +57,6 @@ public class RxBus {
         return sInstance;
     }
 
-
     /**
      * 注册事件的订阅
      *
@@ -76,10 +74,10 @@ public class RxBus {
      * @param eventName 事件名
      * @return 订阅者
      */
-    private  <T> Subject<T> register(@NonNull Object eventName) {
-        List<Subject> subjects = maps.get(eventName);
+    private <T> Subject<T> register(@NonNull Object eventName) {
+        CopyOnWriteArrayList<Subject> subjects = maps.get(eventName);
         if (subjects == null) {
-            subjects = new ArrayList<>();
+            subjects = new CopyOnWriteArrayList<>();
             maps.put(eventName, subjects);
         }
         Subject<T> subject = PublishSubject.<T>create().toSerialized();
@@ -94,7 +92,7 @@ public class RxBus {
      * @param flowable  需要取消的订阅者
      */
     public void unregister(@NonNull Object eventName, @NonNull Flowable flowable) {
-        List<Subject> subjects = maps.get(eventName);
+        CopyOnWriteArrayList<Subject> subjects = maps.get(eventName);
         if (subjects != null) {
             subjects.remove(flowable);
             if (subjects.isEmpty()) {
@@ -109,7 +107,7 @@ public class RxBus {
      * @param eventName 事件名
      */
     public void unregisterAll(@NonNull Object eventName) {
-        List<Subject> subjects = maps.get(eventName);
+        CopyOnWriteArrayList<Subject> subjects = maps.get(eventName);
         if (subjects != null) {
             maps.remove(eventName);
         }
@@ -131,7 +129,7 @@ public class RxBus {
      * @param content   发送的内容
      */
     public void post(@NonNull Object eventName, @NonNull Object content) {
-        List<Subject> subjects = maps.get(eventName);
+        CopyOnWriteArrayList<Subject> subjects = maps.get(eventName);
         if (subjects != null && !subjects.isEmpty()) {
             for (Subject s : subjects) {
                 s.onNext(content);

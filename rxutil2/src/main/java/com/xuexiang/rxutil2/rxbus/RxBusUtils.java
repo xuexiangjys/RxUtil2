@@ -96,7 +96,8 @@ public class RxBusUtils {
      * @param errorConsumer 错误订阅
      */
     public <T> SubscribeInfo<T> onMainThread(@NonNull Object eventName, Class<T> clazz, Consumer<T> consumer, Consumer<Throwable> errorConsumer) {
-        Flowable<T> flowable = register(eventName, clazz); //注册后，返回订阅者
+        // 注册后，返回订阅者
+        Flowable<T> flowable = register(eventName, clazz);
         /* 订阅管理 */
         SubscribeInfo<T> info = new SubscribeInfo<>(flowable);
         info.setDisposable(add(eventName, flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(consumer, errorConsumer)));
@@ -135,7 +136,8 @@ public class RxBusUtils {
      * @param errorConsumer 错误订阅
      */
     public <T> SubscribeInfo<T> on(@NonNull Object eventName, Class<T> clazz, Consumer<T> consumer, Consumer<Throwable> errorConsumer) {
-        Flowable<T> Observable = register(eventName, clazz);//注册后，返回订阅者
+        // 注册后，返回订阅者
+        Flowable<T> Observable = register(eventName, clazz);
         /* 订阅管理 */
         SubscribeInfo<T> info = new SubscribeInfo<>(Observable);
         info.setDisposable(add(eventName, Observable.subscribe(consumer, errorConsumer)));
@@ -177,7 +179,8 @@ public class RxBusUtils {
      * @param errorConsumer 错误订阅
      */
     public <T> SubscribeInfo<T> on(@NonNull Object eventName, Class<T> clazz, Scheduler scheduler, Consumer<T> consumer, Consumer<Throwable> errorConsumer) {
-        Flowable<T> flowable = register(eventName, clazz);//注册后，返回订阅者
+        // 注册后，返回订阅者
+        Flowable<T> flowable = register(eventName, clazz);
         /* 订阅管理 */
         SubscribeInfo<T> info = new SubscribeInfo<>(flowable);
         info.setDisposable(add(eventName, flowable.observeOn(scheduler).subscribe(consumer, errorConsumer)));
@@ -227,13 +230,16 @@ public class RxBusUtils {
     public void unregister(@NonNull Object eventName, Disposable disposable, Flowable flowable) {
         CompositeDisposable compositeDisposable = maps.get(eventName);
         if (compositeDisposable != null) {
-            compositeDisposable.remove(disposable); //先取消特定的事件订阅
+            // 先取消特定的事件订阅
+            compositeDisposable.remove(disposable);
             if (compositeDisposable.size() == 0) {
                 maps.remove(eventName);
-                RxBus.get().unregisterAll(eventName); //没有订阅信息了，直接注销事件
+                // 没有订阅信息了，直接注销事件
+                RxBus.get().unregisterAll(eventName);
             }
         }
-        RxBus.get().unregister(eventName, flowable); //取消事件的订阅者
+        // 取消事件的订阅者
+        RxBus.get().unregister(eventName, flowable);
     }
 
     /**
