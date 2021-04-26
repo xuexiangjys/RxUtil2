@@ -18,8 +18,6 @@ package com.xuexiang.rxutil2demo;
 
 import android.app.Application;
 
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 import com.xuexiang.rxutil2.logs.RxLog;
 import com.xuexiang.xutil.XUtil;
 
@@ -29,26 +27,13 @@ import com.xuexiang.xutil.XUtil;
  */
 public class App extends Application {
 
-    private static RefWatcher gRefWatcher;
     @Override
     public void onCreate() {
         super.onCreate();
 
         XUtil.init(this);
 
-        initCanary();
-
         RxLog.debug(true);
     }
 
-    private void initCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        gRefWatcher = LeakCanary.install(this);
-    }
-
-    public static RefWatcher getRefWatcher() {
-        return gRefWatcher;
-    }
 }

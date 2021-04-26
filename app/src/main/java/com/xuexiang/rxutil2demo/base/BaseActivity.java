@@ -26,9 +26,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.squareup.leakcanary.RefWatcher;
 import com.xuexiang.rxutil2.lifecycle.RxLifecycle;
-import com.xuexiang.rxutil2demo.App;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -62,8 +60,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         mUnbinder.unbind();
         super.onDestroy();
-        RefWatcher refWatcher = App.getRefWatcher();
-        refWatcher.watch(this);
     }
 
     /**
@@ -84,14 +80,9 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected abstract void initListener();
 
-    protected <T extends View> T $(int id) {
-        return (T) findViewById(id);
-    }
-
     protected void startActivity(Class<? extends Activity> clazz) {
         startActivity(new Intent(this, clazz));
     }
-
 
     protected void toast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

@@ -25,9 +25,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.squareup.leakcanary.RefWatcher;
-import com.xuexiang.rxutil2demo.App;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -100,11 +97,4 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        RefWatcher refWatcher = App.getRefWatcher();
-        refWatcher.watch(this);
-    }
 }
