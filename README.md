@@ -26,7 +26,7 @@
 
 ### 1.1、RxBus
 
-![](https://img.rruu.net/image/5fb69f7b3113f)
+![](https://z3.ax1x.com/2021/06/14/2HSkgU.gif)
 
 ## 2、如何使用
 
@@ -325,5 +325,5 @@ RxJavaUtils.polling(5)
 
 > 更多资讯内容，欢迎扫描关注我的个人微信公众号:【我的Android开源之旅】
 
-![gzh_weixin.jpg](https://img.rruu.net/image/5f871cfff3194)
+![gzh_weixin.jpg](https://ss.im5i.com/2021/06/14/65yoL.jpg)
 
