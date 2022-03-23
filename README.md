@@ -36,7 +36,8 @@
 
 ### 2.1、Android Studio导入方法，添加Gradle依赖
 
-先在项目根目录的 build.gradle 的 repositories 添加:
+1.先在项目根目录的 build.gradle 的 repositories 添加:
+
 ```
 allprojects {
      repositories {
@@ -46,7 +47,7 @@ allprojects {
 }
 ```
 
-然后在dependencies添加:
+2.然后在应用项目(一般是app)的 `build.gradle` 的 dependencies 添加:
 
 ```
 dependencies {
@@ -59,6 +60,7 @@ dependencies {
    implementation 'com.github.xuexiangjys:RxUtil2:1.2.0'
 }
 ```
+
 ### 3.1、RxBus使用
 
 #### 3.1.1、事件注册订阅
